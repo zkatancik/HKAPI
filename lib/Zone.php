@@ -92,7 +92,11 @@ class Zone
         $className = __NAMESPACE__ . "\\Actions\\" . ucfirst($name);
 
         if (class_exists($className) && is_subclass_of($className, ActionInterface::class)) {
-            $action = new $className($arguments[0]);
+            if (!empty($arguments)) {
+                $action = new $className($arguments[0]);
+            } else {
+                $action = new $className();
+            }
         } else {
             throw new HKAPIInvalidActionException('Invalid action ' . $className);
         }
